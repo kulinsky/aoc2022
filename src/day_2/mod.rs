@@ -1,3 +1,5 @@
+use std::fs;
+
 pub enum PlayOption {
     Rock,
     Paper,
@@ -14,10 +16,35 @@ impl PlayOption {
     }
 }
 
+impl From<&str> for PlayOption {
+    fn from(v: &str) -> Self {
+        match v {
+            "A" => PlayOption::Rock,
+            "B" => PlayOption::Paper,
+            "C" => PlayOption::Scissors,
+            "X" => PlayOption::Rock,
+            "Y" => PlayOption::Paper,
+            "Z" => PlayOption::Scissors,
+            _ => unreachable!(),
+        }
+    }
+}
+
 pub enum PlayResult {
     Win,
     Draw,
     Lose,
+}
+
+impl From<&str> for PlayResult {
+    fn from(v: &str) -> Self {
+        match v {
+            "X" => PlayResult::Lose,
+            "Y" => PlayResult::Draw,
+            "Z" => PlayResult::Win,
+            _ => unreachable!(),
+        }
+    }
 }
 
 fn get_result_for_b(a: &PlayOption, b: &PlayOption) -> PlayResult {
@@ -103,4 +130,32 @@ fn test_1() {
     let ans = problem_2(data);
 
     assert_eq!(ans, 12);
+}
+
+pub fn get_data_1(filename: &str) -> Vec<(PlayOption, PlayOption)> {
+    let binding = fs::read_to_string(filename).unwrap();
+    let contents: Vec<&str> = binding.split_terminator("\n").collect();
+
+    let mut res = Vec::new();
+
+    for c in contents {
+        let s: Vec<&str> = c.split(" ").collect();
+        res.push((PlayOption::from(s[0]), PlayOption::from(s[1])));
+    }
+
+    res
+}
+
+pub fn get_data_2(filename: &str) -> Vec<(PlayOption, PlayResult)> {
+    let binding = fs::read_to_string(filename).unwrap();
+    let contents: Vec<&str> = binding.split_terminator("\n").collect();
+
+    let mut res = Vec::new();
+
+    for c in contents {
+        let s: Vec<&str> = c.split(" ").collect();
+        res.push((PlayOption::from(s[0]), PlayResult::from(s[1])));
+    }
+
+    res
 }
