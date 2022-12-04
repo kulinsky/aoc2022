@@ -34,8 +34,6 @@ pub fn problem_1(arr: Vec<&str>) -> usize {
             .filter(|k| s3.contains(k))
             .collect();
 
-        println!("{:?}", z);
-
         for c in z {
             total += LETTERS.chars().position(|x| x == *c).unwrap() + 1;
         }
