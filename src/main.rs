@@ -1,5 +1,6 @@
 pub mod day_1;
 pub mod day_2;
+pub mod day_3;
 
 fn main() {
     let data = day_1::get_data("input-1.txt");
